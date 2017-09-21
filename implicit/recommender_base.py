@@ -22,7 +22,7 @@ class RecommenderBase(object):
         pass
 
     @abstractmethod
-    def recommend(self, userid, user_items, N=10, filter_items=None, recalculate_user=False):
+    def recommend(self, userid, user_items, N=10, filter_items=None, recalculate_user=False, filter_liked=True):
         """
         Recommends items for a user
 
@@ -44,6 +44,8 @@ class RecommenderBase(object):
         recalculate_user : bool, optional
             When true, don't rely on stored user state and instead recalculate from the
             passed in user_items
+        filter_liked : bool, optional
+            When true, filter out the items that user has already owned.
 
         Returns
         -------

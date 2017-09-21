@@ -88,11 +88,14 @@ class AnnoyAlternatingLeastSquares(AlternatingLeastSquares):
         # transform distances back to cosine from euclidean distance
         return zip(neighbours, 1 - (numpy.array(dist) ** 2) / 2)
 
-    def recommend(self, userid, user_items, N=10, filter_items=None, recalculate_user=False):
+    def recommend(self, userid, user_items, N=10, filter_items=None, recalculate_user=False, filter_liked=True):
         user = self._user_factor(userid, user_items, recalculate_user)
 
         # calculate the top N items, removing the users own liked items from the results
-        liked = set(user_items[userid].indices)
+        liked = set()
+        if filter_liked:
+            liked = set(user_items[userid].indices)
+
         if filter_items:
             liked.update(filter_items)
         count = N + len(liked)
